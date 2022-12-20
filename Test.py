@@ -83,8 +83,6 @@ class Game:
         self.board = Board(len(level[0]), len(level), 50, self.dic_image_from_level)
         self.board.render(screen, level)
         
-        
-
     
     
     
@@ -101,7 +99,22 @@ def main(*size):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()        
+                sys.exit()  
+                
+            elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    print("k_UP")
+                    game.board.go_up(screen)
+
+                if event.key == K_DOWN:
+                    print("k_DOWN")
+                    game.board.go_down(screen)
+                if event.key == K_RIGHT:
+                    print("k_RIGHT")
+                    game.board.go_right(screen)
+                if event.key == K_LEFT:
+                    print("k_LEFT")
+                    game.board.go_left(screen)
 
         pygame.display.flip()
 
