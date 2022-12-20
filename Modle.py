@@ -8,25 +8,43 @@ import pygame
 
 
 class Board:
-    def __init__(self, width, height):
+    def __init__(self, width, height, cell_size=50, dic_image_from_level={}):
         self.width = width
         self.height = height
-        self.board = [[0] * width for _ in range(height)]
-        self.left = 10
-        self.top = 10
-        self.cell_size = 30
- 
-    def set_view(self, left, top, cell_size):
-        self.left = left
-        self.top = top
         self.cell_size = cell_size
+        self.board = [[0] * width for _ in range(height)]
+        self.left = 0
+        self.top = 0
+        self.dic_image_from_level = dic_image_from_level
+
  
-    def render(self, surface):
+
+ 
+    def render(self, screen, level):
         wcolor = pygame.Color(255, 255, 255)
-        for i in range(self.height):
-            for j in range(self.width):
-                pygame.draw.rect(surface, wcolor, (self.left + self.cell_size * j, self.top + self.cell_size * i,
-                                                   self.cell_size, self.cell_size), 1 if self.board[i][j] == 0 else 0)
+        for y in range(self.height):
+            for x in range(self.width):
+                n_x, n_y = self.left + self.cell_size * y, self.top + self.cell_size * x
+                k_x, k_y = self.cell_size, self.cell_size
+                
+                pygame.draw.rect(screen, wcolor, (n_x, n_y, k_x, k_y), 1)
+                
+                
+                level_res = level[y][x]
+                print(level_res)
+                if level_res == "@":
+                    titleRect = self.dic_image_from_level["."].get_rect()
+                    titleRect.bottomleft = (n_x, n_y + 50)
+                    screen.blit(self.dic_image_from_level["."], titleRect)
+ 
+                    
+                    
+                    
+                    
+                titleRect = self.dic_image_from_level[level[y][x]].get_rect()
+                titleRect.bottomleft = (n_x, n_y + 50)
+                
+                screen.blit(self.dic_image_from_level[level[y][x]], titleRect)
  
     
  
@@ -47,3 +65,4 @@ class Board:
         
         if x >= 0 and y >= 0 and x < self.width and y < self.height:
             return (x, y)
+        
